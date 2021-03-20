@@ -1,0 +1,11 @@
+pd.melt(df,id_vars=['sub_id_only','age', 'wave'], value_vars=['maxthetaTOalpha_freq_MF', 'maxthetaTOalpha_freq_PO']).to_csv('alpha_freq.csv')
+
+pd.melt(df,id_vars=['sub_id_only','age', 'wave'], value_vars=['maxthetaTOalpha_power_MF', 'maxthetaTOalpha_power_PO']).to_csv('alpha_power.csv')
+
+pd.melt(df,id_vars=['sub','age', 'wave'], value_vars=['PO_EO_slope', 'MF_EO_slope']).to_csv('slope.csv')
+
+pd.melt(df,id_vars=['sub','age', 'wave'], value_vars=['PO_EO_yint', 'MF_EO_yint']).to_csv('yint.csv')
+
+library('rms')
+df <- read.csv("~/bin/development_1_f/slope.csv")
+model<-robcov(ols(value ~ age*variable, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
