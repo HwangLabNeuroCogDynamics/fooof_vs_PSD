@@ -2,10 +2,34 @@ pd.melt(df,id_vars=['sub_id_only','age', 'wave'], value_vars=['maxthetaTOalpha_f
 
 pd.melt(df,id_vars=['sub_id_only','age', 'wave'], value_vars=['maxthetaTOalpha_power_MF', 'maxthetaTOalpha_power_PO']).to_csv('alpha_power.csv')
 
-pd.melt(df,id_vars=['sub','age', 'wave'], value_vars=['PO_EO_slope', 'MF_EO_slope']).to_csv('slope.csv')
+pd.melt(df,id_vars=['sub_id_only','age', 'wave'], value_vars=['PO_EO_slope', 'MF_EO_slope']).to_csv('slope.csv')
 
-pd.melt(df,id_vars=['sub','age', 'wave'], value_vars=['PO_EO_yint', 'MF_EO_yint']).to_csv('yint.csv')
+pd.melt(df,id_vars=['sub_id_only','age', 'wave'], value_vars=['PO_EO_yint', 'MF_EO_yint']).to_csv('yint.csv')
 
 library('rms')
 df <- read.csv("~/bin/development_1_f/slope.csv")
 model<-robcov(ols(value ~ age*variable, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+
+df <- read.csv("~/bin/development_1_f/yint.csv")
+model<-robcov(ols(value ~ age*variable, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+
+df <- read.csv("~/bin/fooof_vs_PSD/alpha_freq.csv")
+model<-robcov(ols(value ~ age*variable, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+
+df <- read.csv("~/bin/fooof_vs_PSD/alpha_power.csv")
+model<-robcov(ols(value ~ age*variable, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+
+df <- read.csv("~/bin/fooof_vs_PSD/bothElectrodeClusters_allSubs_wAperiodic_maxThetatoAlpha.csv")
+model<-robcov(ols(maxthetaTOalpha_freq_PO ~ age, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+model<-robcov(ols(maxthetaTOalpha_freq_MF ~ age, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+
+model<-robcov(ols(maxthetaTOalpha_power_PO ~ age, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+model<-robcov(ols(maxthetaTOalpha_power_MF ~ age, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+
+
+model<-robcov(ols(PO_EO_slope ~ age, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+model<-robcov(ols(MF_EO_slope ~ age, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+
+model<-robcov(ols(PO_EO_yint ~ age, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+model<-robcov(ols(MF_EO_yint ~ age, data = df, x = TRUE, y = TRUE), cluster = df$sub_id_only)
+
